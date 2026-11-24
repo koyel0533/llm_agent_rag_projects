@@ -1,0 +1,184 @@
+jshell> //how to remove duplicate in list
+
+jshell>  List<Integer> numbers=Arrays.asList(5,
+2,8,2,3,5,9,3);
+numbers ==> [5, 2, 8, 2, 3, 5, 9, 3]
+
+jshell> numbers.stream().collect(Collectors.toS
+et());
+$2 ==> [2, 3, 5, 8, 9]
+
+jshell> //we can also use hastSet
+
+jshell>  List<Integer> number1=Arrays.asList(5,
+1 ,15,20,25)
+number1 ==> [5, 10, 15, 20, 25]
+
+jshell> number1.stream().mapToInt(Integer::intV
+alue).average().orElse(null);
+|  Error:
+|  incompatible types: <nulltype> cannot be converted to double
+|  number1.stream().mapToInt(Integer::intValue).average().orElse(null);
+|                  ^--^
+
+jshell> number1.stream().mapToInt(Integer::intValue).average().orElse(0.0);
+$4 ==> 15.0
+
+jshell> numbers.stream().sorted((a,b)->a.compar
+e(b)).toList();
+|  Error:
+|  method compare in class java.lang.Integer cannot be applied to given types;
+|    required: int,int
+|    found:    java.lang.Integer
+|    reason: actual and formal argument lists differ in length
+|  numbers.stream().sorted((a,b)->a.compare(b)).toList();
+|                                 ^-------^
+
+jshell> numbers.stream().sorted((a,b)->a.compar
+eTo(b)).toList();
+$5 ==> [2, 2, 3, 3, 5, 5, 8, 9]
+
+jshell> numbers.stream().sorted((a,b)->b.compar
+e o(a)).toList();
+$6 ==> [9, 8, 5, 5, 3, 3, 2, 2]
+
+jshell> //sorted method
+
+jshell> numbers.stream().sorted(Comparator.reverseOrder()).toList();
+$7 ==> [9, 8, 5, 5, 3, 3, 2, 2]
+
+jshell> //count the fruit list
+
+jshell> List<String> fruits=Arrays.asList("Appl
+e","Bannana","Avocado","Mango","Apricot");
+fruits ==> [Apple, Bannana, Avocado, Mango, Apricot]
+
+jshell> fruits
+fruits ==> [Apple, Bannana, Avocado, Mango, Apricot]
+
+jshell> fruits.stream().filter(r->r.startsWith(
+"A")).count();
+$10 ==> 3
+
+jshell> fruits.stream().collect(collectors.join
+ing());
+|  Error:
+|  cannot find symbol
+|    symbol:   variable collectors
+|  fruits.stream().collect(collectors.joining());
+|                          ^--------^
+
+jshell> //joining all stream using , opeartor
+
+jshell> fruits.stream().collect(Collectors.joining(","));
+$11 ==> "Apple,Bannana,Avocado,Mango,Apricot"
+
+jshell> fruits.stream().collect(Collectors.join
+ing(",","{","}"));
+$12 ==> "{Apple,Bannana,Avocado,Mango,Apricot}"
+
+jshell> //check if all elements are positive numbers
+
+jshell> numbers.stream().filter(r->r>0).toList(
+);
+$13 ==> [5, 2, 8, 2, 3, 5, 9, 3]
+
+jshell>  List<Integer> numbers=Arrays.asList(5,
+2,8,2,3,5,9,3);
+numbers ==> [5, 2, 8, 2, 3, 5, 9, 3]
+
+jshell> List<Integer> numbers=Arrays.asList(-2,
+-8,2,3,5,9,3);
+numbers ==> [-2, -8, 2, 3, 5, 9, 3]
+
+jshell> numbers.stream().allMatch(n->n>0);
+$16 ==> false
+
+jshell> List<Integer> numbers=Arrays.asList(2,3
+,5,9,3);
+numbers ==> [2, 3, 5, 9, 3]
+
+jshell> numbers.stream().allMatch(n->n>0);
+$18 ==> true
+
+jshell> //check if number divisible by 3
+
+jshell> numbers.stream().anyMatch(n->n%3==0);
+$19 ==> true
+
+jshell> //flatten List of List
+
+jshell> List<List<Integer>> lsls=Arrays.asList(
+   ...> Arrays.asList(1,2,3),
+   ...> Arrays.asList(4,5,6),
+   ...> Arrays.asList(7,8,9));
+lsls ==> [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+jshell> lsls.stream().flatMap(List::stream()).toList();
+|  Error:
+|  ')' or ',' expected
+|  lsls.stream().flatMap(List::stream()).toList();
+|                                    ^
+
+jshell> lsls.stream().flatMap(List::stream).toL
+ist();
+$21 ==> [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+jshell> //find the first non-empty string in alist
+
+jshell> List<String> str=Arrays.asList("","","H
+ello","World","");
+str ==> [, , Hello, World, ]
+
+jshell> str.stream().filter(r->r.!isEmpty()).to
+l st();
+|  Error:
+|  <identifier> expected
+|  str.stream().filter(r->r.!isEmpty()).tolist();
+|                           ^
+
+jshell> str.stream().filter(r->!r.isEmpty()).to
+l st();
+|  Error:
+|  cannot find symbol
+|    symbol:   method tolist()
+|  str.stream().filter(r->!r.isEmpty()).tolist();
+|  ^-----------------------------------------^
+
+jshell> str.stream().filter(r->!r.isEmpty()).findFirst().orElse(null);
+$23 ==> "Hello"
+
+jshell> //second Highest Number in String
+
+jshell> numbers.stream().skip(1).findFirst().orElse(0.0);
+|  Error:
+|  incompatible types: double cannot be converted to java.lang.Integer
+|  numbers.stream().skip(1).findFirst().orElse(0.0);
+|^-^
+
+jshell> numbers.stream().skip(1).findFirst().orElse(0);
+$24 ==> 3
+
+jshell> numbers
+numbers ==> [2, 3, 5, 9, 3]
+
+jshell> numbers.stream().sorted(Comparator.reve
+rseOrder).skip(1).findFirst().orElse(0);
+|  Error:
+|  cannot find symbol
+|    symbol:   variable reverseOrder
+|  numbers.stream().sorted(Comparator.reverseOrder).skip(1).findFirst().orElse(0);
+|                          ^---------------------^
+
+jshell> numbers.stream().sorted(Comparator.reverseOrder()).skip(1).findFirst().orElse(0);
+$26 ==> 5
+
+jshell> numbers.stream().sorted(Comparator.reverseOrder()).skip(1).findFirst().orElse(0);
+$27 ==> 5
+
+jshell> numbers.stream().sorted(Comparator.reverseOrder()).skip(2).findFirst().orElse(0);
+$28 ==> 3
+
+jshell> //sort List of Employees By Salary
+
+jshell>
